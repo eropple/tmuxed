@@ -1,0 +1,43 @@
+version: 1
+name: testproject
+
+onStart:
+  - echo "this is a start"
+  - echo "I'm doing start things"
+  - echo "have a \"quoted\" line"
+
+onClose:
+  - echo "this is a start"
+  - echo "I'm doing start things"
+  - echo "have a \"quoted\" line"
+
+windows:
+- name: test1
+  layout: main-vertical
+  panes:
+    - steps:
+      - wait: 1
+      - pwd; sleep 5; pwd
+    - steps:
+      - wait: 3
+      - echo "I am pane Number 2"
+      - pwd
+      - wait: 3
+      - pwd
+      - wait: 3
+    - steps:
+      - wait: 3
+      - echo "I am pane Number 3."
+      - pwd
+      - wait: 2
+      - pwd
+      - wait: 4
+- name: test2
+  layout: main-vertical
+  panes:
+    - steps:
+      - wait: 1
+      - top
+    - pwd
+    - pwd
+    - pwd
