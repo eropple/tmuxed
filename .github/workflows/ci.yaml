@@ -23,10 +23,10 @@ jobs:
         run: deno cache --lock=deps-lock.json --import-map=import_map.json deps.ts
       - name: compiling executable (non-windows)
         if: matrix.deno-target != 'x86_64-pc-windows-msvc'
-        run: deno compile --allow-read --allow-run --import-map=import_map.json --output=tmuxed ./entry-point.ts
+        run: deno compile --allow-read --allow-run --import-map=import_map.json --target=${{ matrix.deno-target }} --output=tmuxed ./entry-point.ts
       - name: compiling executable (windows)
         if: matrix.deno-target == 'x86_64-pc-windows-msvc'
-        run: deno compile --allow-read --allow-run --import-map=import_map.json --output=tmuxed.exe ./entry-point.ts
+        run: deno compile --allow-read --allow-run --import-map=import_map.json --target=${{ matrix.deno-target }} --output=tmuxed.exe ./entry-point.ts
       - name: uploading artifact (non-windows)
         if: matrix.deno-target != 'x86_64-pc-windows-msvc'
         uses: actions/upload-artifact@v2
