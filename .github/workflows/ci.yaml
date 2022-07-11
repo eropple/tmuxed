@@ -9,7 +9,6 @@ jobs:
       matrix:
         deno-target:
           - x86_64-unknown-linux-gnu
-          - x86_64-pc-windows-msvc
           - x86_64-apple-darwin
           - aarch64-apple-darwin
 
@@ -21,22 +20,11 @@ jobs:
         uses: actions/checkout@v2
       - name: caching deps
         run: deno cache --lock=deps-lock.json --import-map=import_map.json deps.ts
-      - name: compiling executable (non-windows)
-        if: matrix.deno-target != 'x86_64-pc-windows-msvc'
+      - name: compiling executable
         run: deno compile --allow-read --allow-run --import-map=import_map.json --target=${{ matrix.deno-target }} --output=tmuxed ./entry-point.ts
-      - name: compiling executable (windows)
-        if: matrix.deno-target == 'x86_64-pc-windows-msvc'
-        run: deno compile --allow-read --allow-run --import-map=import_map.json --target=${{ matrix.deno-target }} --output=tmuxed.exe ./entry-point.ts
-      - name: uploading artifact (non-windows)
-        if: matrix.deno-target != 'x86_64-pc-windows-msvc'
+      - name: uploading artifact
         uses: actions/upload-artifact@v2
         with:
           name: tmuxed-${{ matrix.deno-target }}
           path: tmuxed
-      - name: uploading artifact (windows)
-        if: matrix.deno-target == 'x86_64-pc-windows-msvc'
-        uses: actions/upload-artifact@v2
-        with:
-          name: tmuxed-${{ matrix.deno-target }}
-          path: tmuxed.exe
 
