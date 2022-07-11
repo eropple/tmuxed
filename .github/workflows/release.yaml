@@ -70,6 +70,12 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+      - name: Get tag ref
+        id: get-ref
+        uses: ankitvgupta/ref-to-tag-action@v1
+        with:
+          ref: ${{ github.ref }}
+          head_ref: ${{ github.head_ref }}
       - name: Check out code
         uses: actions/checkout@v2
       - name: caching deps
@@ -86,5 +92,5 @@ jobs:
         with:
           upload_url: ${{ needs.make-release.outputs.upload_url }}
           asset_path: ./tmuxed
-          asset_name: tmuxed-${{ github.ref }}-${{ matrix.deno_target }}
+          asset_name: tmuxed-$VERSION-${{ matrix.deno_target }}
           asset_content_type: application/octet-stream
