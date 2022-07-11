@@ -8,14 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        deno-target:
-          - x86_64-unknown-linux-gnu
-          - x86_64-apple-darwin
-          - aarch64-apple-darwin
-
     steps:
       - uses: denoland/setup-deno@v1
         with:
@@ -31,7 +23,7 @@ jobs:
       - name: compiling executable for aarch64-apple-darwin
         run: deno compile --allow-read --allow-run --target=x86_64-unknown-linux-gnu --output=/tmp/tmuxed-macos-aarch64 ./entry-point.ts
       - name: setting chmod
-        run: chmod +x tmuxed
+        run: chmod +x /tmp/tmuxed-*
       - name: uploading artifacts (all)
         uses: actions/upload-artifact@v2
         with:
