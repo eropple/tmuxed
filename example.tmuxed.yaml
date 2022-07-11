@@ -1,32 +1,50 @@
+# required
 version: 1
+# required
 name: testproject
 
+# a string or list of strings to be executed as shell
+# commands before the tmux session is started
 onStart:
   - echo "this is a start"
   - echo "I'm doing start things"
   - echo "have a \"quoted\" line"
 
+# a string or list of strings to be executed as shell
+# commands *either* after the tmux session is detached
+# or is killed (I don't typically detach tmuxed sessions
+# that I haven't detached via :kill-session; if you do,
+# you won't want to use onClose!)
 onClose:
-  - echo "this is a start"
-  - echo "I'm doing start things"
-  - echo "have a \"quoted\" line"
+  - echo "and now we're closing"
+  - echo "we're doing close things"
+  - echo "have a \"quoted\" line here, too"
 
+# you need at least one window
 windows:
+# the first window will be switched to when attaching to tmux
 - name: test1
+  # supports all tmuxed layout formats, both named and encoded,
+  # e.g. "bb62,159x48,0,0{79x48,0,0,79x48,80,0}"
+  #
+  # if you do `tmux list-windows` you'll get an encoded layout
+  # that you can pass here.
   layout: main-vertical
+  # wait time, in seconds, before input starts (useful if,
+  # like me, your shell is a little bit pudgy and takes a
+  # second to get ready before it takes input!)
+  waitBeforeInput: 2
+  # you need at least one pane, defined as either a string or an
+  # object with a `steps` key.
   panes:
+    - ~ # YAML 'null' means 'do nothing'; just open a standard shell in this pane
     - steps:
-      - wait: 1
-      - pwd; sleep 5; pwd
-    - steps:
-      - wait: 3
       - echo "I am pane Number 2"
       - pwd
       - wait: 3
       - pwd
       - wait: 3
     - steps:
-      - wait: 3
       - echo "I am pane Number 3."
       - pwd
       - wait: 2
@@ -34,10 +52,8 @@ windows:
       - wait: 4
 - name: test2
   layout: main-vertical
+  waitBeforeInput: 4
   panes:
-    - steps:
-      - wait: 1
-      - top
-    - pwd
+    - top
     - pwd
     - pwd

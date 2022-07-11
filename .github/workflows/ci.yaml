@@ -19,9 +19,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: caching deps
-        run: deno cache --lock=deps-lock.json --import-map=import_map.json deps.ts
+        run: deno cache --lock=deps-lock.json deps.ts
       - name: compiling executable
-        run: deno compile --allow-read --allow-run --import-map=import_map.json --target=${{ matrix.deno-target }} --output=tmuxed ./entry-point.ts
+        run: deno compile --allow-read --allow-run --target=${{ matrix.deno-target }} --output=tmuxed ./entry-point.ts
       - name: uploading artifact
         uses: actions/upload-artifact@v2
         with:

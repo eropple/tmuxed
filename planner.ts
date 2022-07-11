@@ -104,13 +104,32 @@ export function buildTmuxPlan(basePath: string, config: ConfigLatest): TmuxPlan 
       }
     }
 
+    ret.initSteps.push({
+      command: "select-window",
+      args: [
+        `-t`, `${config.name}:${config.windows[0].name}`,
+      ]
+    });
+
     // now iterate all of them, including window.0, to get what we want.
     for (const [paneIndex, polymorphicPane] of window.panes.entries()) {
+      if (polymorphicPane === null) {
+        continue;
+      }
+
       const pane: PaneLatest =
         typeof(polymorphicPane) === 'object' ? polymorphicPane : { steps: [polymorphicPane]};
       const fullPaneName = `${windowFullName}.${paneIndex}`;
 
-      ret.parallelSteps[fullPaneName] = pane.steps.map(step => {
+      ret.parallelSteps[fullPaneName] = [];
+
+      if (window.waitBeforeInput) {
+        ret.parallelSteps[fullPaneName].push({
+          wait: window.waitBeforeInput,
+        });
+      }
+
+      ret.parallelSteps[fullPaneName].push(...pane.steps.map(step => {
         if (typeof(step) === 'object') {
           return step;
         }
@@ -131,7 +150,7 @@ export function buildTmuxPlan(basePath: string, config: ConfigLatest): TmuxPlan 
             ]
           },
         ];
-      }).flat();
+      }).flat());
     }
   }
 

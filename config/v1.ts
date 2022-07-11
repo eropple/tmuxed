@@ -38,8 +38,12 @@ export const WindowV1 = Type.Object({
   name: IdentifierNameV1,
   cwd: CWDV1,
   layout: Type.Optional(Type.String()),
+  waitBeforeInput: Type.Optional(Type.Integer({
+    description: "A timespan, in seconds, to wait after creating a pane before beginning to send input to it.",
+  })),
   panes: Type.Array(
     Type.Union([
+      Type.Null(),
       Type.String(),
       PaneV1,
     ]),

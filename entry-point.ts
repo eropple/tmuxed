@@ -10,7 +10,6 @@ await
     .name("tmuxed")
     .version(VERSION)
     .description("tmuxed management that just won't quit.\n\nI mean, it won't quit.\n\nYou can. You should maybe go outside.")
-    .globalOption("-v, --verbose", "Ups the level of log chatter. Good for debugging against tmux.")
     .command("go", "Hit it.")
     .arguments("[configFile:file]")
     .action(async (_options, ...args) => {
@@ -32,5 +31,9 @@ await
     .command("config-schema", "Prints out the expected config schema for you.")
     .action(() => {
       console.log(YAML.dump(ConfigLatest));
+    })
+    .command("version", "Prints the application version and exits.")
+    .action (() => {
+      console.log(VERSION);
     })
     .parse(Deno.args);
