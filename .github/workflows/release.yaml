@@ -72,7 +72,7 @@ jobs:
           deno-version: v1.x
       - name: Get tag ref
         id: get-ref
-        uses: ankitvgupta/ref-to-tag-action@v1
+        uses: eropple/ref-to-tag-action@master
         with:
           ref: ${{ github.ref }}
           head_ref: ${{ github.head_ref }}
