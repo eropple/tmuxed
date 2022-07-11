@@ -67,6 +67,9 @@ jobs:
           - x86_64-apple-darwin
           - aarch64-apple-darwin
     steps:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
       - name: Check out code
         uses: actions/checkout@v2
       - name: caching deps
