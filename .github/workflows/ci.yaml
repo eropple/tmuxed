@@ -19,9 +19,9 @@ jobs:
       - name: compiling executable for x86_64-unknown-linux-gnu
         run: deno compile --allow-read --allow-run --target=x86_64-unknown-linux-gnu --output=/tmp/tmuxed-linux-x86_64 ./entry-point.ts
       - name: compiling executable for x86_64-apple-darwin
-        run: deno compile --allow-read --allow-run --target=x86_64-unknown-linux-gnu --output=/tmp/tmuxed-macos-x86_64 ./entry-point.ts
+        run: deno compile --allow-read --allow-run --target=x86_64-apple-darwin --output=/tmp/tmuxed-macos-x86_64 ./entry-point.ts
       - name: compiling executable for aarch64-apple-darwin
-        run: deno compile --allow-read --allow-run --target=x86_64-unknown-linux-gnu --output=/tmp/tmuxed-macos-aarch64 ./entry-point.ts
+        run: deno compile --allow-read --allow-run --target=aarch64-apple-darwin --output=/tmp/tmuxed-macos-aarch64 ./entry-point.ts
       - name: setting chmod
         run: chmod +x /tmp/tmuxed-*
       - name: uploading artifacts (all)
