@@ -13,6 +13,8 @@ The motivation behind building this application was as much to stretch out Deno 
 ## Getting `tmuxed` ##
 New releases will always be on the--wait for it--[releases page](https://github.com/eropple/tmuxed/releases). I'll automatically publish releases for any platform targeted by both `tmux` and Deno; this means that there's no Windows release because there's no `tmux` target. On the other hand, I use `tmuxed` in WSL2 pretty much every day, so we're all set.
 
+You can also grab mainline development releases from the [GitHub Actions page](https://github.com/eropple/tmuxed/actions).
+
 ## How does it work? ##
 It's easy: `tmuxed go`!
 
