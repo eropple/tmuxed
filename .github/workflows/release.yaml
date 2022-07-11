@@ -26,6 +26,8 @@ jobs:
         run: deno cache --lock=deps-lock.json deps.ts
       - name: compiling executable
         run: deno compile --allow-read --allow-run --target=${{ matrix.deno-target }} --output=tmuxed ./entry-point.ts
+      - name: setting chmod
+        run: chmod +x tmuxed
       - name: uploading artifact
         uses: actions/upload-artifact@v2
         with:
@@ -71,6 +73,8 @@ jobs:
         run: deno cache --lock=deps-lock.json deps.ts
       - name: compiling executable
         run: deno compile --allow-read --allow-run --target=${{ matrix.deno-target }} --output=tmuxed ./entry-point.ts
+      - name: setting chmod
+        run: chmod +x tmuxed
       - name: Upload release asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
