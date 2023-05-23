@@ -1,15 +1,20 @@
 import { parseConfig } from "./config/index.ts";
 import { ConfigLatest } from "./config/types.ts";
-import { CliffyCommand, YAML } from './deps.ts';
+import { CliffyCommand, YAML, CompletionsCommand } from './deps.ts';
 import { executePlan } from "./executor.ts";
 import { buildTmuxPlan } from "./planner.ts";
 import { VERSION } from "./version.ts";
 
-await
+await (
   (new CliffyCommand())
     .name("tmuxed")
     .version(VERSION)
     .description("tmuxed management that just won't quit.\n\nI mean, it won't quit.\n\nYou can. You should maybe go outside.")
+    .action(function() {
+      this.showHelp();
+      Deno.exit(1);
+    })
+    .command("completions", new CompletionsCommand())
     .command("go", "Hit it.")
     .arguments("[configFile:file]")
     .action(async (_options, ...args) => {
@@ -36,4 +41,5 @@ await
     .action (() => {
       console.log(VERSION);
     })
-    .parse(Deno.args);
+    .parse(Deno.args)
+);

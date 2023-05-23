@@ -15,7 +15,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: caching deps
-        run: deno cache --lock=deps-lock.json deps.ts
+        run: make deps
+      - if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        name: outputting version (tag)
+        run: echo "export const VERSION = '$(git describe --tags)-gha' as const;" | tee version.ts
+      - if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        name: outputting version (git hash)
+        run: echo "export const VERSION = 'git-$(git rev-parse --short "$GITHUB_SHA")-gha' as const;" | tee version.ts
+      - name: debug - printing entry point
+        run: cat entry-point.ts
       - name: compiling executable for x86_64-unknown-linux-gnu
         run: deno compile --allow-read --allow-run --target=x86_64-unknown-linux-gnu --output=/tmp/tmuxed-linux-x86_64 ./entry-point.ts
       - name: compiling executable for x86_64-apple-darwin
@@ -24,6 +32,8 @@ jobs:
         run: deno compile --allow-read --allow-run --target=aarch64-apple-darwin --output=/tmp/tmuxed-macos-aarch64 ./entry-point.ts
       - name: setting chmod
         run: chmod +x /tmp/tmuxed-*
+      - name: test-running linux artifact just to be sure...
+        run: /tmp/tmuxed-linux-x86_64 version
       - name: uploading artifacts (all)
         uses: actions/upload-artifact@v2
         with:

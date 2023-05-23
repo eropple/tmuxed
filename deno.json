@@ -1,4 +1,8 @@
 {
   "importMap": "import_map.json",
-  "lock": "deps-lock.json"
+  "lock": "deps-lock.json",
+  "tasks": {
+    "run": "deno run --unstable --allow-read --allow-net --allow-run --allow-write --allow-env -- entry-point.ts",
+    "update": "deno run --allow-read=./ --allow-net --allow-write=./ https://deno.land/x/deno_outdated@0.2.4/cli.ts"
+  }
 }
