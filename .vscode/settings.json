@@ -1,3 +1,4 @@
 {
-  "deno.enable": true
+  "deno.enable": true,
+  "ansible.python.interpreterPath": "/Users/ed/.asdf/shims/python3.10"
 }
